@@ -1,5 +1,4 @@
 1) Added bill to /etc/sudoers
 2) sudo apt-get install cdparanoia
 3) Set CD-ROM (in Storage) as "pass through"
--4) sudo apt-get install python python-tk idle python-pmw python-imaging
-5) sudo apt-get install python-wxgtk2.8 python-wxtools wx2.8-i18n
+4) sudo apt-get install python-wxgtk2.8 python-wxtools wx2.8-i18n
