@@ -20,9 +20,16 @@ class AudioManager(wx.Frame):
         close.Bind(wx.EVT_BUTTON, self.OnClose)
         box.Add(close, 0, wx.ALL, 10)
 
+        #This button will beging the CD Thread
         start = wx.Button(panel, wx.ID_FORWARD, "Begin")
-        start.Bind(wx.EVT_BUTTON, self.RipCdProcess)
+        start.Bind(wx.EVT_BUTTON, self.BeginCdThread)
         box.Add(start, 0, wx.ALL, 10)
+
+        self.editAuthor = wx.TextCtrl(panel, size=(140, -1))
+        box.Add(self.editAuthor, 0, wx.ALL, 10)
+
+        self.editBook = wx.TextCtrl(panel, size=(140, -1))
+        box.Add(self.editBook, 0, wx.ALL, 10)
 
         panel.SetSizer(box)
         panel.Layout()
@@ -36,20 +43,20 @@ class AudioManager(wx.Frame):
         if result == wx.ID_OK:
             self.Destroy()
 
-    def RipCdProcess(self, event):
+    def RipCdProcess(self):
         cd_status = subprocess.call(["cdparanoia", "-Q"])
         while cd_status == 1: #o appears to be good
-           print "CD NOT READY, PLEASE WAIT"
+           print "CD NOT READY, PLEASE WAIT" #TODO - Print to a dialog
            time.sleep(2)
 	   cd_status = subprocess.call(["cdparanoia", "-Q"])
 
-    def RunCdparanoia(self):
-	if self.author.get() == "Enter Author":
+    def BeginCdThread(self, event):
+	if self.editAuthor.GetValue() == "Enter Author":
            print("Please Enter Author") #TODO - print to a dialog
-        if self.book.get() == "Enter Title":
+        if self.editBook.GetValue() == "Enter Title":
            print("Please Enter Title") #TODO - print to a dialog
 
-        self._cdp = threading.Thread(target=self.rip_cd_process)
+        self._cdp = threading.Thread(target=self.RipCdProcess)
         self._cdp.start() 
 
 app = wx.App(redirect=True)
